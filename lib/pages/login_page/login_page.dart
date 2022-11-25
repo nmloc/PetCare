@@ -1,7 +1,5 @@
 import 'package:amity_sdk/amity_sdk.dart';
-import 'package:dogs_park/pages/login_page/controller/amity_login_controller.dart';
 import 'package:dogs_park/pages/login_page/controller/user_controller.dart';
-import 'package:dogs_park/pages/social/controller/channel_controller.dart';
 import 'package:dogs_park/theme/colors.dart';
 import 'package:dogs_park/theme/dimens.dart';
 import 'package:dogs_park/utils/data_bucket.dart';
@@ -186,10 +184,7 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('loggedUser', _phoneNumberController.text);
         }
-        AmityLoginController amityLoginController = AmityLoginController();
-        await amityLoginController.login(_phoneNumberController.text);
         await UserController.getInstance().initAccessToken();
-        await ChannelController.initial();
 
         print(UserController.getInstance().accessToken);
         var user = await UserRepository().getUser(_phoneNumberController.text);

@@ -6,15 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
-import '../../social/utils/repository/chat_repo_imp.dart';
-
 class UserController extends GetxController {
   static UserController? instance;
   RxInt selectUserListLength = 0.obs;
   RxInt userListLength = 0.obs;
   List<AmityUser> _userList = [];
   List<String> selectedUserList = [];
-  AmityChatRepoImp channelRepoImp = AmityChatRepoImp();
   String accessToken = "";
   List<AmityUser> getUserList() {
     return _userList;
@@ -97,16 +94,16 @@ class UserController extends GetxController {
   }
 
   Future<void> searchUser(String keyword, String accessToken) async {
-    await channelRepoImp.searchUser(keyword, callback: (data, error) {
-      if (data != null) {
-        userListLength.value = 0;
-        _userList.clear();
-        _userList.addAll(data);
-        userListLength.value = _userList.length;
-        print("check user list ${data} ==== ${_userList}");
-        // notifyListeners();
-      } else {}
-    }, accessToken: accessToken);
+    // await channelRepoImp.searchUser(keyword, callback: (data, error) {
+    //   if (data != null) {
+    //     userListLength.value = 0;
+    //     _userList.clear();
+    //     _userList.addAll(data);
+    //     userListLength.value = _userList.length;
+    //     print("check user list ${data} ==== ${_userList}");
+    //     // notifyListeners();
+    //   } else {}
+    // }, accessToken: accessToken);
   }
 
   bool checkIfSelected(String id) {

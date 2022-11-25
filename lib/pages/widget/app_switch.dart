@@ -1,10 +1,6 @@
 import 'package:dogs_park/pages/daycarePackages_page/daycare_package_home.dart';
 import 'package:dogs_park/pages/petsList_page/pets_list_page.dart';
 import 'package:dogs_park/pages/signupPet_page/signup_pet_page.dart';
-import 'package:dogs_park/pages/social/community/community_tabbar.dart';
-import 'package:dogs_park/pages/social/social_home_page/home_feed_page.dart';
-import 'package:dogs_park/pages/social/generated/l10n.dart';
-import 'package:dogs_park/pages/social/social_notification_page/notification_page.dart';
 
 import 'package:dogs_park/pages/userInformation_page/user_information_page.dart';
 import 'package:flutter/material.dart';
@@ -24,11 +20,6 @@ class _BottomBarState extends State<BottomBar> {
   final List<Widget> _widgetOptions = <Widget>[
     DaycarePackageHome(), //home
     PetLists(),
-    //SignUpPetPage(), //product list
-    //NotificationPage(),
-    CommunityTabbar(),
-    //HomePage(), //social
-    HomeFeedPage(),
     UserInformationPage(),
   ];
 
@@ -66,14 +57,6 @@ class _BottomBarState extends State<BottomBar> {
             BottomNavigationBarItem(
               icon: Icon(Icons.list_alt_rounded),
               label: 'Pets list',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_bag),
-              label: 'Mall',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.notifications),
-              label: 'Social',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
