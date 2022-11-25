@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import '../auth.dart';
+
 import '../../main.dart';
 import '../../utils/networking.dart';
 import '../../utils/utils.dart';
@@ -20,15 +23,38 @@ import '../../widgets/customTextField_Obscure.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  final User? user = Auth().currentUser;
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String? errorMessage = '';
+  bool isLogin = true;
   final _remember = false.obs;
+
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+
+  Future<void> signInWithEmailAndPassword() async {
+    try {
+      await Auth().signInWithEmailAndPassword(
+        email:_controllerEmail.text,
+        password:_controllerPassword.text,
+      );
+    } on FirebaseAuthException catch (e) {
+      setState((){
+        errorMessage = e.message;
+      })
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

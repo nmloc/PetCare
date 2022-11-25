@@ -1,34 +1,41 @@
 {
   "project_info": {
-    "project_number": "581376880340",
-    "project_id": "dog-park-project",
-    "storage_bucket": "dog-park-project.appspot.com"
+    "project_number": "461521322540",
+    "project_id": "petcare-database",
+    "storage_bucket": "petcare-database.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:581376880340:android:0c6024c7fc918bc7759541",
+        "mobilesdk_app_id": "1:461521322540:android:0508a477bea24530dbc789",
         "android_client_info": {
           "package_name": "com.example.dogs_park"
         }
       },
       "oauth_client": [
         {
-          "client_id": "581376880340-d9c4rfgvqsqjacue2ih4f7928deoq1l4.apps.googleusercontent.com",
+          "client_id": "461521322540-kuhjglqmalsqn4nm28elpu4vmltjkmi5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAfqIZ8eTaxa4qnZ-YsoNxblPU1175HKhw"
+          "current_key": "AIzaSyDuqRk6I91l78DS9hDfUEeSDtsTDJdrEQE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "581376880340-d9c4rfgvqsqjacue2ih4f7928deoq1l4.apps.googleusercontent.com",
+              "client_id": "461521322540-kuhjglqmalsqn4nm28elpu4vmltjkmi5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "461521322540-51pe5usakr2pkua2ffuiupupshg3fs4j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dogsPark"
+              }
             }
           ]
         }
