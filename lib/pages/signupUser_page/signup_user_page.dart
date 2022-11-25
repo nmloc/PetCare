@@ -283,7 +283,7 @@ class SignUpUserPage extends GetView<SignUpUserController> {
                             //     context,
                             //     MaterialPageRoute(
                             //         builder: (context) => LoginPage()));
-                            Get.offAll(const LoginPage());
+                            Get.offAll(LoginPage());
                           },
                           child: const Text(
                             Dimens.signIn,

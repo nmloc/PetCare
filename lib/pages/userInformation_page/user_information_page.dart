@@ -313,7 +313,7 @@ void _showDialog(BuildContext context) {
                 Navigator.pop(context);
                 //logOut(context);
                 await logout();
-                Get.off(const LoginPage());
+                Get.off(LoginPage());
               },
               child: const Text('Yes'),
             ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:amity_sdk/amity_sdk.dart';
 import 'package:dogs_park/pages/login_page/controller/user_controller.dart';
 import 'package:dogs_park/theme/colors.dart';
@@ -9,7 +11,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import '../auth.dart';
+import '../../auth.dart';
 
 import '../../main.dart';
 import '../../utils/networking.dart';
@@ -19,39 +21,19 @@ import '../signupUser_page/signup_user_page.dart';
 import '../../widgets/customTextField_Obscure.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  final User? user = Auth().currentUser;
+  LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String? errorMessage = '';
+  final User? user = Auth().currentUser;
   bool isLogin = true;
   final _remember = false.obs;
 
-  final TextEditingController _controllerEmail = TextEditingController();
-  final TextEditingController _controllerPassword = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-
-  Future<void> signInWithEmailAndPassword() async {
-    try {
-      await Auth().signInWithEmailAndPassword(
-        email:_controllerEmail.text,
-        password:_controllerPassword.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState((){
-        errorMessage = e.message;
-      })
-    }
-  }
-
-
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: Dimens.maxHeight_003),
             CustomTextField(
               fieldName: Dimens.phoneNumber,
-              controllerName: _phoneNumberController,
+              controllerName: _emailController,
               enabled: true,
             ),
             CustomTextField_Obscure(
@@ -185,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _signInHandler() async {
-    if (_phoneNumberController.text.isEmpty) {
+    if (_emailController.text.isEmpty) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text(Dimens.pleasePhone)));
@@ -194,34 +176,34 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text(Dimens.pleasePass)));
     } else {
-      // dynamic customerData = await Networking.getInstance()
-      //     .isCustomer(_phoneNumberController.text, _passwordController.text);
-      dynamic customerData = "Existed";
-      if (customerData == Dimens.notExist) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text(Dimens.wrongPhone)));
-      } else if (customerData == Dimens.enWrongPass) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text(Dimens.viWrongPass)));
-      } else if (customerData != null) {
-        if (_remember.value) {
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('loggedUser', _phoneNumberController.text);
+      try {
+        await Auth().signInWithEmailAndPassword(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.message == 'invalid-email') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Invalid email!')));
+        } else if (e.message == 'user-not-found') {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('User not found, please sign up!')));
+        } else if (e.message == 'wrong-password') {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(const SnackBar(content: Text('Wrong password!')));
+        } else {
+          if (_remember.value) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('loggedUser', _emailController.text);
+          }
+          await UserController.getInstance().initAccessToken();
+          print(UserController.getInstance().accessToken);
+          navigateTo(
+              context,
+              UserApp(
+                loggedUser: _emailController.text,
+              ));
         }
-        await UserController.getInstance().initAccessToken();
-
-        print(UserController.getInstance().accessToken);
-        var user = await UserRepository().getUser(_phoneNumberController.text);
-        print("User Amity: " + user.toString());
-        // print(await DataBucket.getInstance().getCustomerList());
-        // ignore: use_build_context_synchronously
-        navigateTo(
-            context,
-            UserApp(
-              loggedUser: _phoneNumberController.text,
-            ));
       }
     }
   }

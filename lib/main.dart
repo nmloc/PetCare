@@ -56,9 +56,7 @@ Future<void> main() async {
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Dog Park',
-    home: loggedUser == null
-        ? const LoginPage()
-        : UserApp(loggedUser: loggedUser),
+    home: loggedUser == null ? LoginPage() : UserApp(loggedUser: loggedUser),
     theme: defaultTheme,
     getPages: AppPages.pages,
   ));
